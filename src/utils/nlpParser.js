@@ -95,28 +95,26 @@ export function parseSpokenInput(rawText) {
   }
 
   // 5. Clean up title vs description
-  // Clean prefix if speaker said "Action item:" or "Bug:"
+  // Clean prefixes if speaker said "Action item:", "Critical decision:", "High priority bug:", etc.
   let cleanText = text
-    .replace(/^(action item:?|action:?|todo:?|architecture decision:?|architecture:?|decision:?|bug detected:?|bug:?|urgent bug:?|insight:?|p0 action item:?)\s*/i, '')
+    .replace(/^(action item:?|action:?|todo:?|architecture decision:?|critical decision:?|architecture:?|decision:?|bug detected:?|high priority bug:?|urgent bug:?|bug:?|p0 bug:?|p1 bug:?|p0 action item:?|p1 action item:?|insight:?|root cause insight:?)\s*/i, '')
     .trim();
 
   // Capitalize first letter
   cleanText = cleanText.charAt(0).toUpperCase() + cleanText.slice(1);
 
-  // Generate crisp short title and expanded body
+  // Generate crisp title and expanded body
   let title = cleanText;
-  let detail = '';
+  let detail = cleanText;
 
   const sentenceSplit = cleanText.split(/(?<=[.?!])\s+/);
   if (sentenceSplit.length > 1) {
-    title = sentenceSplit[0];
+    title = sentenceSplit[0].replace(/[.?!]$/, '');
     detail = sentenceSplit.slice(1).join(' ');
-  } else if (cleanText.length > 70) {
-    const cut = cleanText.lastIndexOf(' ', 65);
-    if (cut !== -1) {
-      title = cleanText.slice(0, cut) + '...';
-      detail = cleanText;
-    }
+  } else {
+    // If single sentence, use full clean sentence as title, and full context as detail
+    title = cleanText.replace(/[.?!]$/, '');
+    detail = cleanText;
   }
 
   return {

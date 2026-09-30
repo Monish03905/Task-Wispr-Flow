@@ -32,8 +32,8 @@ ${architecture.length === 0 ? '_No architecture decisions recorded yet._' : arch
 ### 2.${idx + 1} ${a.title}
 - **Priority:** \`${a.priority}\`
 - **Component Tags:** ${a.tags.map(t => `\`#${t}\``).join(' ')}
-- **Specification:** ${a.detail || a.raw}
-- **Recorded At:** ${a.createdAt}
+- **Technical Specification:** ${a.detail || a.raw}
+- **Logged At:** ${a.createdAt}
 `).join('\n')}
 
 ---
@@ -41,7 +41,7 @@ ${architecture.length === 0 ? '_No architecture decisions recorded yet._' : arch
 ## 3. High-Priority Action Items & Deliverables
 ${actions.length === 0 ? '_No action items recorded yet._' : actions.map(act => `
 - [ ] **[${act.priority}]** **${act.title}**
-  - **Details:** ${act.detail || act.raw}
+  ${act.detail && act.detail !== act.title ? `- **Context:** ${act.detail}` : ''}
   - **Status:** \`${act.status.toUpperCase()}\`
   - **Labels:** ${act.tags.map(t => `\`#${t}\``).join(', ')}
 `).join('\n')}
@@ -51,15 +51,15 @@ ${actions.length === 0 ? '_No action items recorded yet._' : actions.map(act => 
 ## 4. Defect & Resilience Backlog
 ${bugs.length === 0 ? '_No defects reported._' : bugs.map(b => `
 - ⚠️ **[${b.priority}] ${b.title}**
-  - **Impact:** ${b.detail || b.raw}
-  - **Context:** Tagged under ${b.tags.join(', ')}
+  ${b.detail && b.detail !== b.title ? `- **Root Cause/Impact:** ${b.detail}` : ''}
+  - **Component Focus:** ${b.tags.join(', ')}
 `).join('\n')}
 
 ---
 
 ## 5. Strategic Insights & Research Findings
 ${insights.length === 0 ? '_No insights recorded._' : insights.map(ins => `
-- 💡 **${ins.title}** — ${ins.detail || ins.raw}
+- 💡 **${ins.title}**${ins.detail && ins.detail !== ins.title ? ` — ${ins.detail}` : ''}
 `).join('\n')}
 
 ---
