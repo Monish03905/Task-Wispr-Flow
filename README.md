@@ -203,8 +203,8 @@ Control VoxFlow Studio completely hands-free while dictating:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/monis/voice.git
-   cd voice
+   git clone https://github.com/Monish03905/VoxFlow-Studio.git
+   cd VoxFlow-Studio
    ```
 
 2. **Install dependencies:**
@@ -253,8 +253,8 @@ Crafted with 🎙️ voice and ❤️ for the **Wispr Flow Shortlisting Task**
 
 [![Wispr Flow](https://img.shields.io/badge/Wispr%20Flow-Try%20Free-06b6d4?style=flat-square&logo=soundcharts)](https://ref.wisprflow.ai/hhg)
 &nbsp;&nbsp;•&nbsp;&nbsp;
-[Report Issue](https://github.com/monis/voice/issues)
+[Report Issue](https://github.com/Monish03905/VoxFlow-Studio/issues)
 &nbsp;&nbsp;•&nbsp;&nbsp;
-[Request Feature](https://github.com/monis/voice/pulls)
+[Request Feature](https://github.com/Monish03905/VoxFlow-Studio/pulls)
 
 </div>
