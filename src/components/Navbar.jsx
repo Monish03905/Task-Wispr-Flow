@@ -9,7 +9,8 @@ import {
   Zap, 
   Activity,
   Play,
-  Award
+  Award,
+  ShieldCheck
 } from 'lucide-react';
 import { PRESET_SCENARIOS } from '../utils/speechEngine';
 
@@ -20,6 +21,8 @@ export default function Navbar({
   onStartScenario,
   onOpenExport,
   onOpenGuide,
+  onOpenAccount,
+  userWisprEmail,
   onClear,
   wpm,
   itemCount
@@ -35,10 +38,14 @@ export default function Navbar({
           <div className="brand-title-row">
             <span className="brand-name">VoxFlow</span>
             <span className="brand-tag">Studio</span>
-            <span className="wispr-badge">
-              <Sparkles size={12} className="wispr-badge-icon" />
-              Wispr Flow Powered
-            </span>
+            <button 
+              className="wispr-badge clickable-badge"
+              onClick={onOpenAccount}
+              title="View Wispr Flow Account & Voice Integration"
+            >
+              <ShieldCheck size={13} className="text-emerald-400" />
+              <span>{userWisprEmail ? `Wispr: ${userWisprEmail.split('@')[0]}` : 'Wispr Flow Linked'}</span>
+            </button>
           </div>
           <p className="brand-subtitle">Voice-Native Cognitive Command Center</p>
         </div>

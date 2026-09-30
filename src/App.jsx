@@ -7,6 +7,7 @@ import StructuredCardsGrid from './components/StructuredCardsGrid';
 import WisprComparisonWidget from './components/WisprComparisonWidget';
 import ExportModal from './components/ExportModal';
 import VoiceScriptGuideModal from './components/VoiceScriptGuideModal';
+import WisprAccountModal from './components/WisprAccountModal';
 
 import { VoiceSpeechEngine } from './utils/speechEngine';
 import { parseSpokenInput } from './utils/nlpParser';
@@ -74,6 +75,10 @@ export default function App() {
     }
   });
 
+  const [userWisprEmail, setUserWisprEmail] = useState(() => {
+    return localStorage.getItem('wispr_account_email') || 'monish@wisprflow.user';
+  });
+
   const [isListening, setIsListening] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
@@ -84,6 +89,7 @@ export default function App() {
 
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   const engineRef = useRef(null);
 
@@ -93,6 +99,13 @@ export default function App() {
       localStorage.setItem('voxflow_items', JSON.stringify(items));
     } catch {}
   }, [items]);
+
+  const handleSaveEmail = (email) => {
+    setUserWisprEmail(email);
+    try {
+      localStorage.setItem('wispr_account_email', email);
+    } catch {}
+  };
 
   // Initialize Speech Engine
   useEffect(() => {
@@ -208,6 +221,8 @@ export default function App() {
         onStartScenario={handleStartScenario}
         onOpenExport={() => setIsExportOpen(true)}
         onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenAccount={() => setIsAccountOpen(true)}
+        userWisprEmail={userWisprEmail}
         onClear={handleClearAll}
         wpm={wpm}
         itemCount={items.length}
@@ -231,6 +246,7 @@ export default function App() {
           onStartSimulation={handleStartScenario}
           onSubmitManualText={handleSpokenUtterance}
           activeScenario={activeScenario}
+          userWisprEmail={userWisprEmail}
         />
 
         {/* 2-Column Studio Layout */}
@@ -266,11 +282,19 @@ export default function App() {
         onClose={() => setIsExportOpen(false)}
         items={items}
         wpm={wpm}
+        userEmail={userWisprEmail}
       />
 
       <VoiceScriptGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
+      />
+
+      <WisprAccountModal
+        isOpen={isAccountOpen}
+        onClose={() => setIsAccountOpen(false)}
+        userEmail={userWisprEmail}
+        onSaveEmail={handleSaveEmail}
       />
     </div>
   );

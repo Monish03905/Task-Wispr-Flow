@@ -20,7 +20,7 @@ import {
 } from '../utils/exportFormats';
 import { sound } from '../utils/audioSynthesizer';
 
-export default function ExportModal({ isOpen, onClose, items, wpm }) {
+export default function ExportModal({ isOpen, onClose, items, wpm, userEmail }) {
   if (!isOpen) return null;
 
   const [activeTab, setActiveTab] = useState('prd');
@@ -35,19 +35,19 @@ export default function ExportModal({ isOpen, onClose, items, wpm }) {
     switch (activeTab) {
       case 'prd':
         return {
-          text: generatePRDMarkdown(items, sessionStats),
+          text: generatePRDMarkdown(items, sessionStats, userEmail),
           filename: 'VOXFLOW_PRD.md',
           mime: 'text/markdown'
         };
       case 'linear':
         return {
-          text: generateLinearIssues(items),
+          text: generateLinearIssues(items, userEmail),
           filename: 'LINEAR_GITHUB_ISSUES.md',
           mime: 'text/markdown'
         };
       case 'email':
         return {
-          text: generateExecutiveEmail(items, sessionStats),
+          text: generateExecutiveEmail(items, sessionStats, userEmail),
           filename: 'EXECUTIVE_BRIEF.txt',
           mime: 'text/plain'
         };
