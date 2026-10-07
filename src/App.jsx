@@ -87,11 +87,27 @@ export default function App() {
   const [activeScenario, setActiveScenario] = useState('');
   const [selectedId, setSelectedId] = useState(null);
 
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('voxflow_theme') || 'light';
+  });
+
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   const engineRef = useRef(null);
+
+  // Set html data-theme attribute whenever theme changes
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('voxflow_theme', theme);
+    } catch {}
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   // Save items to local storage
   useEffect(() => {
@@ -212,11 +228,13 @@ export default function App() {
   };
 
   return (
-    <div className="app-root-layout">
+    <div className={`app-root-layout theme-${theme}`}>
       {/* Top Navigation */}
       <Navbar
         isListening={isListening}
         isSimulating={isSimulating}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
         onToggleMic={handleToggleMic}
         onStartScenario={handleStartScenario}
         onOpenExport={() => setIsExportOpen(true)}
@@ -235,6 +253,7 @@ export default function App() {
         <WaveformVisualizer 
           isListening={isListening}
           audioLevel={audioLevel}
+          theme={theme}
         />
 
         {/* Live Dictation Cockpit & Voice Commands */}
@@ -247,6 +266,7 @@ export default function App() {
           onSubmitManualText={handleSpokenUtterance}
           activeScenario={activeScenario}
           userWisprEmail={userWisprEmail}
+          theme={theme}
         />
 
         {/* 2-Column Studio Layout */}
@@ -258,6 +278,7 @@ export default function App() {
               items={items}
               selectedId={selectedId}
               onSelectNode={(id) => setSelectedId(id)}
+              theme={theme}
             />
             <WisprComparisonWidget currentWpm={wpm} />
           </section>

@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 <br/>
 
@@ -143,6 +143,12 @@ Export your entire brainstormed session immediately:
 - All captured items auto-saved to **localStorage** — reload and resume any session
 - Per-card status management: `todo` -> `active` -> `done` with one click
 - Individual card deletion or full canvas clear
+
+### 9. Dual Theme Engine — White Mode & Dark Mode
+
+- **White Mode Active by Default**: High-contrast, clean slate aesthetic with soft shadows, vibrant emerald/cyan accents, and crisp typography for daylight engineering sessions
+- **Instant Navbar Switcher**: Seamless Sun/Moon toggle with state auto-persisted to `localStorage`
+- **Dynamic Adaptive Canvas**: Real-time graph node styling, waveform spectrum rendering, and code previews adapt automatically between light and dark modes
 
 ---
 
@@ -318,7 +324,7 @@ This application was conceptualized, planned, and programmed using voice-driven 
 - [x] **Wispr Flow Account**: Created and authenticated via [ref.wisprflow.ai/hhg](https://ref.wisprflow.ai/hhg)
 - [x] **Working Web Application**: Fully interactive voice-native command center with reactive audio
 - [x] **Modular Architecture**: Clean React 19 component structure with decoupled audio, speech, and NLP utilities
-- [x] **Obsidian Glassmorphism UI**: High-end modern developer cockpit aesthetics
+- [x] **Light & Dark Theme Engine**: Sleek, high-contrast White Mode by default + Obsidian Dark Mode toggle
 - [x] **Zero External Asset Dependencies**: Self-synthesized Web Audio sound effects and SVG graph physics
 - [x] **Session Persistence**: localStorage auto-save — resume any session on reload
 - [x] **5-Format Export Engine**: PRD, GitHub Issues, Email, Mermaid, JSON

@@ -2,14 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Layers, ZoomIn, ZoomOut, RotateCcw, Maximize2 } from 'lucide-react';
 
 const CATEGORY_COLORS = {
-  action: { bg: 'rgba(16, 185, 129, 0.2)', border: '#10b981', text: '#34d399', glow: 'rgba(16, 185, 129, 0.4)' },
-  architecture: { bg: 'rgba(59, 130, 246, 0.2)', border: '#3b82f6', text: '#60a5fa', glow: 'rgba(59, 130, 246, 0.4)' },
-  bug: { bg: 'rgba(239, 68, 68, 0.2)', border: '#ef4444', text: '#f87171', glow: 'rgba(239, 68, 68, 0.4)' },
-  insight: { bg: 'rgba(234, 179, 8, 0.2)', border: '#eab308', text: '#facc15', glow: 'rgba(234, 179, 8, 0.4)' },
-  note: { bg: 'rgba(148, 163, 184, 0.2)', border: '#94a3b8', text: '#cbd5e1', glow: 'rgba(148, 163, 184, 0.4)' }
+  action: { bg: 'rgba(16, 185, 129, 0.2)', bgLight: 'rgba(16, 185, 129, 0.15)', border: '#10b981', text: '#10b981', textDark: '#34d399', glow: 'rgba(16, 185, 129, 0.4)' },
+  architecture: { bg: 'rgba(59, 130, 246, 0.2)', bgLight: 'rgba(59, 130, 246, 0.15)', border: '#3b82f6', text: '#2563eb', textDark: '#60a5fa', glow: 'rgba(59, 130, 246, 0.4)' },
+  bug: { bg: 'rgba(239, 68, 68, 0.2)', bgLight: 'rgba(239, 68, 68, 0.15)', border: '#ef4444', text: '#dc2626', textDark: '#f87171', glow: 'rgba(239, 68, 68, 0.4)' },
+  insight: { bg: 'rgba(234, 179, 8, 0.2)', bgLight: 'rgba(234, 179, 8, 0.15)', border: '#eab308', text: '#d97706', textDark: '#facc15', glow: 'rgba(234, 179, 8, 0.4)' },
+  note: { bg: 'rgba(148, 163, 184, 0.2)', bgLight: 'rgba(148, 163, 184, 0.15)', border: '#94a3b8', text: '#64748b', textDark: '#cbd5e1', glow: 'rgba(148, 163, 184, 0.4)' }
 };
 
-export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) {
+export default function ConceptGraphCanvas({ items, selectedId, onSelectNode, theme = 'light' }) {
+  const isLight = theme === 'light';
   const containerRef = useRef(null);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -136,7 +137,7 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
             <g key={`edge-${item.id}`}>
               <path
                 d={pathD}
-                stroke={isSelected ? styles.border : 'rgba(255, 255, 255, 0.12)'}
+                stroke={isSelected ? styles.border : isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)'}
                 strokeWidth={isSelected ? 2.5 : 1.2}
                 fill="none"
                 strokeDasharray={isSelected ? '4,4' : 'none'}
@@ -152,12 +153,12 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
 
         {/* Central Core Wispr Node */}
         <g transform={`translate(${centerNode.x}, ${centerNode.y})`} className="core-hub-node">
-          <circle r="36" fill="url(#centerGlow)" className="hub-pulse-halo" />
-          <circle r="24" fill="#090d16" stroke="#06b6d4" strokeWidth="2.5" />
+          <circle r="36" fill="url(#centerGlow)" className="hub-pulse-halo" opacity={isLight ? 0.35 : 0.8} />
+          <circle r="24" fill={isLight ? '#ffffff' : '#090d16'} stroke={isLight ? '#0284c7' : '#06b6d4'} strokeWidth="2.5" />
           <text 
             textAnchor="middle" 
             dy="-4" 
-            fill="#e2e8f0" 
+            fill={isLight ? '#0f172a' : '#e2e8f0'} 
             fontSize="10" 
             fontWeight="bold"
             fontFamily="Outfit, sans-serif"
@@ -167,7 +168,7 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
           <text 
             textAnchor="middle" 
             dy="10" 
-            fill="#10b981" 
+            fill={isLight ? '#059669' : '#10b981'} 
             fontSize="8" 
             fontFamily="JetBrains Mono, monospace"
           >
@@ -199,7 +200,7 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
                 width="128"
                 height="36"
                 rx="8"
-                fill={isSelected ? styles.bg : 'rgba(15, 23, 42, 0.88)'}
+                fill={isSelected ? (isLight ? styles.bgLight : styles.bg) : isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.88)'}
                 stroke={styles.border}
                 strokeWidth={isSelected ? 2 : 1.2}
                 filter="url(#glowEffect)"
@@ -211,7 +212,7 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
               <text
                 x="-42"
                 y="3"
-                fill="#f1f5f9"
+                fill={isLight ? '#0f172a' : '#f1f5f9'}
                 fontSize="9"
                 fontWeight="600"
                 fontFamily="Inter, sans-serif"
@@ -220,12 +221,12 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
               </text>
 
               {/* Priority badge */}
-              <rect x="36" y="-12" width="22" height="12" rx="3" fill="rgba(0,0,0,0.4)" />
+              <rect x="36" y="-12" width="22" height="12" rx="3" fill={isLight ? 'rgba(0,0,0,0.06)' : 'rgba(0,0,0,0.4)'} />
               <text
                 x="47"
                 y="-3"
                 textAnchor="middle"
-                fill={styles.text}
+                fill={isLight ? styles.text : styles.textDark}
                 fontSize="7"
                 fontWeight="bold"
                 fontFamily="JetBrains Mono, monospace"
@@ -241,7 +242,7 @@ export default function ConceptGraphCanvas({ items, selectedId, onSelectNode }) 
             x="340"
             y="310"
             textAnchor="middle"
-            fill="rgba(148, 163, 184, 0.6)"
+            fill={isLight ? '#64748b' : 'rgba(148, 163, 184, 0.6)'}
             fontSize="12"
             fontFamily="Inter, sans-serif"
           >

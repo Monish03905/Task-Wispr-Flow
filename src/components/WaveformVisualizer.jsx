@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 
-export default function WaveformVisualizer({ isListening, audioLevel = 0 }) {
+export default function WaveformVisualizer({ isListening, audioLevel = 0, theme = 'light' }) {
   const canvasRef = useRef(null);
+  const isLight = theme === 'light';
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,7 +34,7 @@ export default function WaveformVisualizer({ isListening, audioLevel = 0 }) {
       phase += 0.05 + activeFactor * 0.1;
 
       // Draw subtle grid lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+      ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.03)';
       ctx.lineWidth = 1;
       for (let y = 10; y < height; y += 20) {
         ctx.beginPath();
@@ -44,9 +45,9 @@ export default function WaveformVisualizer({ isListening, audioLevel = 0 }) {
 
       // Draw Multi-layer glowing sine waves
       const waves = [
-        { color: 'rgba(16, 185, 129, 0.75)', amp: 22 * activeFactor, freq: 0.02, speed: 1.0 },
-        { color: 'rgba(6, 182, 212, 0.85)', amp: 30 * activeFactor, freq: 0.015, speed: -0.8 },
-        { color: 'rgba(139, 92, 246, 0.65)', amp: 16 * activeFactor, freq: 0.025, speed: 1.4 }
+        { color: isLight ? 'rgba(5, 150, 105, 0.85)' : 'rgba(16, 185, 129, 0.75)', amp: 22 * activeFactor, freq: 0.02, speed: 1.0 },
+        { color: isLight ? 'rgba(2, 132, 199, 0.9)' : 'rgba(6, 182, 212, 0.85)', amp: 30 * activeFactor, freq: 0.015, speed: -0.8 },
+        { color: isLight ? 'rgba(124, 58, 237, 0.75)' : 'rgba(139, 92, 246, 0.65)', amp: 16 * activeFactor, freq: 0.025, speed: 1.4 }
       ];
 
       waves.forEach((w) => {
@@ -104,7 +105,7 @@ export default function WaveformVisualizer({ isListening, audioLevel = 0 }) {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isListening, audioLevel]);
+  }, [isListening, audioLevel, isLight]);
 
   return (
     <div className="visualizer-container">

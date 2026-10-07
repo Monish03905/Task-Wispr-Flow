@@ -10,13 +10,17 @@ import {
   Activity,
   Play,
   Award,
-  ShieldCheck
+  ShieldCheck,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { PRESET_SCENARIOS } from '../utils/speechEngine';
 
 export default function Navbar({
   isListening,
   isSimulating,
+  theme,
+  onToggleTheme,
   onToggleMic,
   onStartScenario,
   onOpenExport,
@@ -92,6 +96,18 @@ export default function Navbar({
             ))}
           </select>
         </div>
+
+        {/* Theme Toggle Button */}
+        <button 
+          className="nav-btn theme-toggle-btn"
+          onClick={onToggleTheme}
+          title={theme === 'dark' ? 'Switch to White Mode' : 'Switch to Dark Mode'}
+          aria-label="Toggle theme mode"
+          id="themeToggleBtn"
+        >
+          {theme === 'dark' ? <Sun size={15} className="theme-icon sun" /> : <Moon size={15} className="theme-icon moon" />}
+          <span>{theme === 'dark' ? 'White Mode' : 'Dark Mode'}</span>
+        </button>
 
         <button 
           className="nav-btn secondary-btn"
